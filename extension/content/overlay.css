@@ -1,0 +1,601 @@
+/**
+ * Seams Extension Overlay Styles
+ * Adapted from tshirt-evaluator-ui-mockup.html
+ */
+
+/* Floating overlay container */
+.seams-extension-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 380px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  overflow: hidden;
+  z-index: 999999;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Header with close button */
+.seams-header {
+  background: white;
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.seams-header-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.seams-close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.seams-close-btn:hover {
+  color: #374151;
+}
+
+/* Overall badge */
+.seams-overall-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.seams-overall-badge.excellent {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.seams-overall-badge.good {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.seams-overall-badge.average {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.seams-overall-badge.poor {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Content area */
+.seams-content {
+  padding: 16px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+/* Product info */
+.seams-listing-info {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.seams-product-image {
+  width: 60px;
+  height: 60px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.seams-product-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.seams-product-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.seams-product-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.seams-product-price {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Key specs chips */
+.seams-key-specs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.seams-spec-chip {
+  font-size: 11px;
+  padding: 4px 8px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.seams-spec-chip.highlight {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.seams-spec-chip.warning {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Metrics */
+.seams-metric-section {
+  margin-bottom: 16px;
+}
+
+.seams-metric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.seams-metric-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.seams-metric-icon {
+  font-size: 16px;
+}
+
+.seams-see-why-button {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.seams-see-why-button:hover {
+  color: #374151;
+}
+
+.seams-score-value {
+  font-weight: 600;
+  color: #374151;
+  font-size: 13px;
+}
+
+.seams-chevron {
+  font-size: 10px;
+  transition: transform 0.2s;
+}
+
+.seams-chevron.open {
+  transform: rotate(180deg);
+}
+
+/* Slider */
+.seams-slider-container {
+  position: relative;
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 5px;
+  overflow: visible;
+}
+
+.seams-slider-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.seams-slider-fill::after {
+  content: '';
+  position: absolute;
+  right: -2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  background: inherit;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.seams-slider-fill.excellent {
+  background: #10b981;
+}
+
+.seams-slider-fill.good {
+  background: #84cc16;
+}
+
+.seams-slider-fill.average {
+  background: #f59e0b;
+}
+
+.seams-slider-fill.poor {
+  background: #ef4444;
+}
+
+.seams-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+/* Metric explanation */
+.seams-metric-explanation {
+  margin-top: 10px;
+  padding: 10px;
+  background: #f9fafb;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #4b5563;
+  line-height: 1.5;
+  display: none;
+}
+
+.seams-metric-explanation.open {
+  display: block;
+}
+
+/* Warnings */
+.seams-warnings {
+  margin-top: 16px;
+  padding: 12px;
+  background: #fef3c7;
+  border-left: 4px solid #f59e0b;
+  border-radius: 4px;
+}
+
+.seams-warning {
+  font-size: 13px;
+  color: #92400e;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+.seams-warning:last-child {
+  margin-bottom: 0;
+}
+
+/* Ask Customer Service */
+.seams-ask-cs {
+  margin-top: 16px;
+  padding: 12px;
+  background: #dbeafe;
+  border-radius: 4px;
+}
+
+.seams-ask-cs-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e40af;
+  margin-bottom: 8px;
+}
+
+.seams-ask-cs-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.seams-ask-cs-list li {
+  font-size: 12px;
+  color: #1e3a8a;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+/* Summary */
+.seams-summary-section {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.seams-summary-highlight {
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.5;
+}
+
+/* Loading state */
+.seams-loading-state {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.seams-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #0ea5e9;
+  border-radius: 50%;
+  animation: seams-spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes seams-spin {
+  to { transform: rotate(360deg); }
+}
+
+.seams-loading-text {
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Error state */
+.seams-error {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.seams-error-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.seams-error-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.seams-error-message {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.seams-retry-btn {
+  background: #0ea5e9;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.seams-retry-btn:hover {
+  background: #0284c7;
+}
+
+/* Care Impact Section */
+.seams-care-impact {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.seams-care-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 4px;
+}
+
+.seams-care-toggle-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.seams-care-toggle:hover .seams-care-toggle-label {
+  color: #111827;
+}
+
+.seams-care-body {
+  display: none;
+  margin-top: 12px;
+}
+
+.seams-care-body.open {
+  display: block;
+}
+
+.seams-care-savings {
+  padding: 10px 12px;
+  background: #d1fae5;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #065f46;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.seams-care-scenarios {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.seams-care-scenario {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 4px;
+  border-left: 3px solid #e5e7eb;
+  background: #f9fafb;
+  font-size: 12px;
+}
+
+.seams-care-scenario.best {
+  border-left-color: #10b981;
+  background: #f0fdf4;
+}
+
+.seams-care-scenario.good {
+  border-left-color: #84cc16;
+  background: #f7fee7;
+}
+
+.seams-care-scenario.standard {
+  border-left-color: #9ca3af;
+  background: #f9fafb;
+}
+
+.seams-care-scenario.worst {
+  border-left-color: #ef4444;
+  background: #fef2f2;
+}
+
+.seams-care-scenario-method {
+  font-weight: 500;
+  color: #374151;
+  flex: 1;
+}
+
+.seams-care-scenario-stats {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.seams-care-scenario-washes {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.seams-care-scenario-cpw {
+  color: #6b7280;
+  font-size: 11px;
+}
+
+.seams-care-recommendations {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.seams-care-recommendations li {
+  font-size: 12px;
+  color: #4b5563;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+.seams-care-recommendations li:last-child {
+  margin-bottom: 0;
+}
+
+/* Failure Modes Section (Jeans) */
+.seams-failure-modes {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.seams-failure-modes-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 10px;
+}
+
+.seams-failure-mode {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.seams-failure-mode-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.seams-failure-mode-risk {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.seams-failure-mode-risk.poor {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.seams-failure-mode-risk.average {
+  background: #fffbeb;
+  color: #d97706;
+}
+
+.seams-failure-mode-risk.good {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.seams-failure-mode-note {
+  font-size: 11px;
+  color: #6b7280;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}

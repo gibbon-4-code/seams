@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Seams - Clothing Quality Evaluator",
+  "version": "0.1.0",
+  "description": "Real-time quality evaluation for t-shirts, hoodies, and jeans. Shows durability scores, transparency, and cost-per-wear.",
+
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+
+  "host_permissions": [
+    "http://localhost:8000/*",
+    "<all_urls>"
+  ],
+
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "js": [
+        "lib/detection.js",
+        "content/overlay.js",
+        "content/content.js"
+      ],
+      "css": ["content/overlay.css"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "action": {
+    "default_popup": "popup/popup.html"
+  }
+}

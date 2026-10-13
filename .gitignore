@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+*.egg-info/
+.eggs/
+
+# Environment variables (IMPORTANT - keeps API keys safe)
+.env
+.env.local
+config.py
+secrets.py
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node modules (if you have any JavaScript)
+node_modules/
+
+# Build outputs
+dist/
+build/
+*.crx
+*.pem
+
+# Logs
+*.log
+
+# Database
+*.db
+*.sqlite
+
+# Seams temp files
+.tmp/
+
+# Scratch/test HTML files
+*.html
+!extension/**/*.html
+!tests/**/*.html
+
+# Claude Code settings
+.claude/settings.local.json
