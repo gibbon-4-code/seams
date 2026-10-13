@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seams — Will this garment last?</title>
+  <meta name="description" content="Score t-shirts, hoodies and jeans on durability, pilling, shrinkage and cost-per-wear from their product details. Runs entirely in your browser.">
+  <link rel="stylesheet" href="overlay.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <h1>Seams</h1>
+      <p class="tagline">Price doesn't predict how long clothes last. Fabric, weight and construction do.
+        Paste a product's details and Seams scores it on durability, pilling, shrinkage, value and care.</p>
+      <p class="meta">
+        T-shirts, hoodies &amp; jeans · runs entirely in your browser, nothing is uploaded ·
+        <a href="https://github.com/gibbon-4-code/seams">Source on GitHub</a>
+      </p>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <section class="input-panel" aria-label="Product input">
+      <div class="tabs" role="tablist">
+        <button role="tab" class="tab active" data-tab="details" aria-selected="true">Describe a product</button>
+        <button role="tab" class="tab" data-tab="html" aria-selected="false">Paste page source</button>
+      </div>
+
+      <form id="details-form" class="tab-panel" data-panel="details">
+        <div class="samples">
+          <span>Try an example:</span>
+          <button type="button" class="chip" data-sample="premium_tee">Premium tee</button>
+          <button type="button" class="chip" data-sample="budget_tee">Budget 65/35 tee</button>
+          <button type="button" class="chip" data-sample="hoodie">Heavyweight hoodie</button>
+          <button type="button" class="chip" data-sample="jeans">Selvedge jeans</button>
+          <button type="button" class="chip" data-sample="stretch_jeans">Stretch jeans</button>
+        </div>
+
+        <label>Product name
+          <input name="name" required placeholder="e.g. Heavyweight Pullover Hoodie">
+          <small>Used to work out the garment type (t-shirt, hoodie or jeans).</small>
+        </label>
+        <div class="row">
+          <label>Brand <input name="brand" placeholder="optional"></label>
+          <label class="price">Price
+            <span class="price-input">
+              <select name="currency" aria-label="Currency">
+                <option>USD</option><option>GBP</option><option>EUR</option>
+              </select>
+              <input name="price" type="number" min="0" step="0.01" placeholder="optional">
+            </span>
+          </label>
+        </div>
+        <label>Fabric &amp; description
+          <textarea name="materials" rows="6" placeholder="Paste the composition and product description, e.g.&#10;100% combed ring-spun cotton, 180 GSM, side-seamed, preshrunk"></textarea>
+          <small>The more detail (GSM, cotton type, construction), the more confident the score.</small>
+        </label>
+        <button type="submit" class="primary" disabled>Loading engine…</button>
+      </form>
+
+      <form id="html-form" class="tab-panel" data-panel="html" hidden>
+        <ol class="howto">
+          <li>Open a t-shirt, hoodie or jeans product page.</li>
+          <li>Press <kbd>Ctrl</kbd>+<kbd>U</kbd> (<kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>U</kbd> on Mac) to view the page source.</li>
+          <li>Select all, copy, and paste it below.</li>
+        </ol>
+        <label>Page source (HTML)
+          <textarea name="html" rows="10" spellcheck="false" placeholder="<!DOCTYPE html>…"></textarea>
+        </label>
+        <div class="row-actions">
+          <button type="button" class="link" id="load-example-page">Load an example page</button>
+          <button type="submit" class="primary" disabled>Loading engine…</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="result-panel" aria-live="polite">
+      <div id="status" class="status">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>Loading the Python engine in your browser (first visit takes a few seconds)…</p>
+      </div>
+      <div id="result"></div>
+      <details id="raw" hidden>
+        <summary>Raw JSON</summary>
+        <pre></pre>
+      </details>
+    </section>
+  </main>
+
+  <footer class="wrap site-footer">
+    Scoring rules draw on the 2025 University of Leeds / WRAP garment durability study and denim/fleece
+    construction research. Scores are estimates, not lab results.
+  </footer>
+
+  <script src="overlay.js"></script>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

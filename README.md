@@ -8,9 +8,13 @@ Price is a poor signal of quality. A 2025 University of Leeds / WRAP study teste
 
 Seams pulls those details out of the page, scores the garment on durability, shrinkage, pilling, value and care, and shows the result as an overlay while you shop.
 
+### ▶ [Try it live](https://gibbon-4-code.github.io/seams/)
+
+No install needed. Describe a product or paste a page's source; the real Python engine runs in your browser via WebAssembly.
+
 ![Seams overlay on a product page](docs/overlay-screenshot.png)
 
-> **Status: archived.** Seams was a personal project built in early 2026. It works end-to-end locally (extension → API → extraction → scoring) for t-shirts, hoodies and jeans, but it isn't published to the Chrome Web Store and isn't under active development.
+> **Status: archived.** Seams was a personal project built in early 2026. The [web demo](https://gibbon-4-code.github.io/seams/) is live, and the extension works end-to-end locally (extension → API → extraction → scoring) for t-shirts, hoodies and jeans. It isn't published to the Chrome Web Store and isn't under active development.
 
 ---
 
@@ -31,6 +35,8 @@ Seams pulls those details out of the page, scores the garment on durability, shr
                                                        │     jeans evaluator      │
                                                        └──────────────────────────┘
 ```
+
+The [web demo](https://gibbon-4-code.github.io/seams/) runs the same pipeline (`tools/pipeline.py`) without a server: [Pyodide](https://pyodide.org) loads the Python modules into the browser, and the extension's overlay renders the result. GitHub Pages deploys it on every push to `main`.
 
 ### 1. Extraction (`tools/product_extractor.py`)
 
@@ -95,7 +101,7 @@ Requires Python 3.11+.
 pip install -r requirements.txt
 ```
 
-**Tests** (225 tests, no network access needed; all HTML fixtures are embedded):
+**Tests** (231 tests, no network access needed; all HTML fixtures are embedded):
 
 ```bash
 pytest
@@ -114,6 +120,13 @@ python cli.py --url "https://www.example.com/product/123"
 python -m tools.tshirt_evaluator --json-file product.json
 ```
 
+**Web demo locally**:
+
+```bash
+python web/build.py
+python -m http.server -d _site 8080   # open http://localhost:8080
+```
+
 **Extension + API**:
 
 ```bash
@@ -130,6 +143,7 @@ Then load the `extension/` folder at `chrome://extensions` (Developer mode → *
 api/          FastAPI backend the extension talks to
 extension/    Chrome MV3 extension (product detection + overlay UI)
 tools/        Extraction, materials parsing, garment detection, evaluators
+web/         Static web demo (runs tools/ in the browser via Pyodide)
 tests/        Unit + end-to-end tests with embedded HTML fixtures
 workflows/    Markdown SOPs describing each pipeline step
 cli.py        Command-line entry point for extraction
@@ -145,7 +159,7 @@ Seams is designed for evaluating one page at a time while you browse. It does no
 
 - Only t-shirts, hoodies and jeans are scored. Other garments fall back to the t-shirt evaluator.
 - The scoring rules are hand-tuned from published research and brand knowledge, not trained on lab-tested outcomes.
-- The API runs locally; the extension expects `localhost:8000`.
+- The extension needs the API running locally on `localhost:8000`. The web demo needs no server, but you have to paste page source because browsers block fetching other sites' pages.
 - Next steps would have been: jackets and knitwear evaluators, retailer-specific extractors for the biggest UK sites, and caching results per URL.
 
 ## License

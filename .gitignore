@@ -51,6 +51,10 @@ build/
 *.html
 !extension/**/*.html
 !tests/**/*.html
+!web/**/*.html
 
 # Claude Code settings
 .claude/settings.local.json
+
+# Built web demo
+_site/

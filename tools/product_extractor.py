@@ -9,12 +9,6 @@ from urllib.parse import urljoin, urlparse
 
 from bs4 import BeautifulSoup
 try:
-    import extruct
-    EXTRUCT_AVAILABLE = True
-except ImportError:
-    EXTRUCT_AVAILABLE = False
-
-try:
     from price_parser import Price
     PRICE_PARSER_AVAILABLE = True
 except ImportError:
@@ -157,110 +151,108 @@ def extract_jsonld(soup: BeautifulSoup) -> tuple[Dict, List[str]]:
     data = {}
     notes = []
 
-    # Try extruct if available
-    if EXTRUCT_AVAILABLE:
-        try:
-            # Get all script tags with type="application/ld+json"
-            scripts = soup.find_all("script", {"type": "application/ld+json"})
-            for script in scripts:
-                try:
-                    jsonld = json.loads(script.string)
+    try:
+        # Get all script tags with type="application/ld+json"
+        scripts = soup.find_all("script", {"type": "application/ld+json"})
+        for script in scripts:
+            try:
+                jsonld = json.loads(script.string)
 
-                    # Handle @graph arrays
-                    items = []
-                    if isinstance(jsonld, dict):
-                        if "@graph" in jsonld:
-                            items = jsonld["@graph"]
-                        else:
-                            items = [jsonld]
-                    elif isinstance(jsonld, list):
-                        items = jsonld
+                # Handle @graph arrays
+                items = []
+                if isinstance(jsonld, dict):
+                    if "@graph" in jsonld:
+                        items = jsonld["@graph"]
+                    else:
+                        items = [jsonld]
+                elif isinstance(jsonld, list):
+                    items = jsonld
 
-                    # Look for Product type
-                    for item in items:
-                        if not isinstance(item, dict):
-                            continue
+                # Look for Product type
+                for item in items:
+                    if not isinstance(item, dict):
+                        continue
 
-                        item_type = item.get("@type", "")
-                        if isinstance(item_type, list):
-                            item_type = " ".join(item_type)
+                    item_type = item.get("@type", "")
+                    if isinstance(item_type, list):
+                        item_type = " ".join(item_type)
 
-                        if "Product" in item_type:
-                            # Extract fields
-                            if "name" in item:
-                                data["product_name"] = item["name"]
+                    if "Product" in item_type:
+                        # Extract fields
+                        if "name" in item:
+                            data["product_name"] = item["name"]
 
-                            if "brand" in item:
-                                brand = item["brand"]
-                                if isinstance(brand, dict):
-                                    data["brand"] = brand.get("name")
-                                else:
-                                    data["brand"] = str(brand)
+                        if "brand" in item:
+                            brand = item["brand"]
+                            if isinstance(brand, dict):
+                                data["brand"] = brand.get("name")
+                            else:
+                                data["brand"] = str(brand)
 
-                            # Extract offers
-                            if "offers" in item:
-                                offers = item["offers"]
-                                if isinstance(offers, dict):
-                                    offers = [offers]
+                        # Extract offers
+                        if "offers" in item:
+                            offers = item["offers"]
+                            if isinstance(offers, dict):
+                                offers = [offers]
 
-                                if isinstance(offers, list) and len(offers) > 0:
-                                    # Use first offer
-                                    offer = offers[0]
+                            if isinstance(offers, list) and len(offers) > 0:
+                                # Use first offer
+                                offer = offers[0]
 
-                                    if len(offers) > 1:
-                                        notes.append(f"Multiple offers found ({len(offers)} variants)")
+                                if len(offers) > 1:
+                                    notes.append(f"Multiple offers found ({len(offers)} variants)")
 
-                                    if "price" in offer:
-                                        try:
-                                            price_amount = float(offer["price"])
-                                            currency = offer.get("priceCurrency", "GBP")
-                                            data["price"] = {
-                                                "amount": price_amount,
-                                                "currency": currency
-                                            }
-                                        except (ValueError, TypeError):
-                                            pass
+                                if "price" in offer:
+                                    try:
+                                        price_amount = float(offer["price"])
+                                        currency = offer.get("priceCurrency", "GBP")
+                                        data["price"] = {
+                                            "amount": price_amount,
+                                            "currency": currency
+                                        }
+                                    except (ValueError, TypeError):
+                                        pass
 
-                            # Extract materials: schema.org "material" property first,
-                            # then the description if it talks about fabric (evaluators
-                            # read GSM, cotton type, construction from it)
-                            materials_parts = []
-                            material = item.get("material")
-                            if isinstance(material, list):
-                                material = ", ".join(str(m) for m in material)
-                            if isinstance(material, str) and material.strip():
-                                materials_parts.append(material.strip())
+                        # Extract materials: schema.org "material" property first,
+                        # then the description if it talks about fabric (evaluators
+                        # read GSM, cotton type, construction from it)
+                        materials_parts = []
+                        material = item.get("material")
+                        if isinstance(material, list):
+                            material = ", ".join(str(m) for m in material)
+                        if isinstance(material, str) and material.strip():
+                            materials_parts.append(material.strip())
 
-                            desc = item.get("description")
-                            if isinstance(desc, str) and FABRIC_HINT_RE.search(desc):
-                                materials_parts.append(desc.strip())
+                        desc = item.get("description")
+                        if isinstance(desc, str) and FABRIC_HINT_RE.search(desc):
+                            materials_parts.append(desc.strip())
 
-                            if materials_parts:
-                                data["materials_text"] = ". ".join(materials_parts)
+                        if materials_parts:
+                            data["materials_text"] = ". ".join(materials_parts)
 
-                            # Extract images
-                            if "image" in item:
-                                images = item["image"]
-                                if isinstance(images, str):
-                                    data["images"] = [images]
-                                elif isinstance(images, list):
-                                    data["images"] = images
+                        # Extract images
+                        if "image" in item:
+                            images = item["image"]
+                            if isinstance(images, str):
+                                data["images"] = [images]
+                            elif isinstance(images, list):
+                                data["images"] = images
 
-                            # Country of origin
-                            if "countryOfOrigin" in item:
-                                origin = item["countryOfOrigin"]
-                                if isinstance(origin, dict):
-                                    data["country_of_origin"] = origin.get("name")
-                                else:
-                                    data["country_of_origin"] = str(origin)
+                        # Country of origin
+                        if "countryOfOrigin" in item:
+                            origin = item["countryOfOrigin"]
+                            if isinstance(origin, dict):
+                                data["country_of_origin"] = origin.get("name")
+                            else:
+                                data["country_of_origin"] = str(origin)
 
-                            break  # Use first Product found
+                        break  # Use first Product found
 
-                except json.JSONDecodeError:
-                    continue
+            except (json.JSONDecodeError, TypeError):
+                continue
 
-        except Exception as e:
-            notes.append(f"JSON-LD parsing error: {str(e)}")
+    except Exception as e:
+        notes.append(f"JSON-LD parsing error: {str(e)}")
 
     return data, notes
 

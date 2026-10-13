@@ -3,10 +3,6 @@ requests>=2.31.0
 beautifulsoup4>=4.12.0
 lxml>=4.9.0
 
-# JSON-LD extraction
-extruct>=0.16.0
-w3lib>=2.1.0
-
 # Price parsing
 price-parser>=0.3.4
 
